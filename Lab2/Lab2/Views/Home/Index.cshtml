@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<div class="container-fluid">
+    @if (TempData["success_msg"] != null)
+    {
+        <div class="alert alert-success" role="alert" style="width: 500px;">
+            Submitted Successfully !
+        </div>
+    }
+    <form action="" method="post">
+        <div class="form-group" style="width: 500px;">
+            <label for="name">Name</label>
+            <input class="form-control" type="text" id="name" name="name" placeholder="Enter your name">
+        </div>
+        <div class="form-group" style="width: 500px;">
+            <label for="id">ID</label>
+            <input class="form-control" type="text" id="id" name="id" placeholder="Enter your ID">
+        </div>
+        <div class="form-group" style="width: 500px;">
+            <p class="mt-2" for="male">Gender</p>
+            <label for="male">Male</label>
+            <input class="form-check-input" type="radio" name="gender" value="male" id="male">
+            <label for="female">Female</label>
+            <input type="radio" class="form-check-input" name="gender" value="female" id="female">
+        </div>
+        <div class="form-group" style="width: 500px;">
+            <label for="profession" class="mt-2">Profession</label>
+            <select name="profession" class="form-select" id="profession">
+                <option selected>---</option>
+                <option value="Business">Business</option>
+                <option value="Employement">Employement</option>
+            </select>
+        </div>
+        <div class="form-group" style="width: 500px;">
+            <p class="mt-2">Hobbies</p>
+            <label for="sports">Sports</label><input class="form-check-input mx-2" type="checkbox" id="sports"
+                                                     name="hobbies" value="Sports">
+            <label for="Movies">Movies</label><input class="form-check-input mx-2" type="checkbox" id="Movies"
+                                                     name="hobbies" value="Movies">
+            <label for="Gaming">Gaming</label><input class="form-check-input mx-2" type="checkbox" id="Gaming"
+                                                     name="hobbies" value="Gaming">
+            <label for="XYZ">XYZ</label><input class="form-check-input mx-2" type="checkbox" id="XYZ" name="hobbies"
+                                               value="XYZ">
+        </div>
+        <input type="submit" class="btn btn-success mt-5" />
+    </form>
+
+    @if (ViewBag.status == true)
+    {
+        <div style="margin-top: 100px;">
+            <h3>Submitted Data</h3>
+            <p>Name: @ViewBag.name</p>
+            <p>ID: @ViewBag.id</p>
+            <p>Gender: @ViewBag.gender</p>
+            <p>Profession: @ViewBag.profession</p>
+            <p>Hobbies: @ViewBag.hobbies</p>
+        </div>
+    }
+</div>
