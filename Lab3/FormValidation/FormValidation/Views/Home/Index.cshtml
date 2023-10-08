@@ -1,0 +1,80 @@
+﻿@model FormValidation.Models.Person
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+@{ 
+
+    //bool professionChecker(string profession)
+    //{
+    //    bool flag = false;
+    //    if (Model != null && Model.Profession != null && Model.Profession.Equals(profession))
+    //    {
+    //        flag = true;
+    //    }
+    //    return flag;
+    //}
+    string dobChecker()
+    {
+        string flag = null;
+        if (Model != null && Model.Dob != null)
+        {
+            flag = Model.Dob;
+        }
+        return flag;
+    }
+    
+}
+<div>
+    @*<div class="text-danger">
+        @Html.ValidationSummary()
+    </div>*@
+    <div>
+        @{
+            if (Model != null)
+            {
+                <p>@Model.Name</p>
+                <p>@Model.Username</p>
+                <p>@Model.Email</p>
+                <p>@Model.ID</p>
+                <p>@Model.Password</p>
+                <p>@Model.Dob</p>
+            }
+        }
+    </div>
+    <form action="" method="post" class="form-control">
+        <label for="Name">Name</label>
+        <input type="text" class="form-control" name="Name" id="Name" value="@(Model !=null && Model.Name != null?Model.Name:"")" placeholder="Enter your name">
+        <div><span class="text-danger">@Html.ValidationMessage("Name")</span></div>
+
+        <label for="Username">Username</label>
+        <input type="text" class="form-control" name="Username" id="Username" value="@(Model !=null && Model.Username != null?Model.Username:"")" placeholder="Enter your Username">
+        <div><span class="text-danger">@Html.ValidationMessage("Username")</span></div>
+
+        <label for="Email" class="form-check-label">Email</label>
+        <input type="text" class="form-control" name="Email" id="Email" value="@(Model !=null && Model.Email != null?Model.Email:"")" placeholder="Enter your Email">
+        <div><span class="text-danger">@Html.ValidationMessage("Email")</span></div>
+
+        <label for="ID">Student ID</label>
+        <input type="text" class="form-control" name="ID" id="ID" value="@(Model !=null && Model.ID != null?Model.ID:"")" placeholder="Enter your ID">
+        <div><span class="text-danger">@Html.ValidationMessage("ID")</span></div>
+
+        <label for="Password">Password</label>
+        <input type="password" class="form-control" name="Password" id="Password" value="@(Model !=null && Model.Password != null?Model.Password:"")" placeholder="Enter your Password">
+        <div><span class="text-danger">@Html.ValidationMessage("Password")</span></div>
+
+        <label for="Dob" class="form-check-label">Date of Birth</label>
+        <input type="date" class="form-control" name="Dob" value="@(dobChecker())" id="Dob">
+        <div><span class="text-danger">@Html.ValidationMessage("Dob")</span></div>
+        @if (TempData["emIdMt"] != null && !(bool)TempData["emIdMt"])
+        {
+            <div class="vrSpace"></div>
+            <div><span class="text-danger">Email's id and Student ID must be matched.</span></div>
+            <div class="vrSpace"></div>
+        }
+        <div class="vrSpace"></div>
+        <div class="centerAnything">
+            <input type="submit" name="submit" class="btn btn-success">
+        </div>
+    </form>
+</div>

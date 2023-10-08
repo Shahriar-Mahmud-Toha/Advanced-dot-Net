@@ -1,0 +1,37 @@
+﻿@model FormValidation.Models.Person
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_OuterLayout.cshtml";
+}
+
+<h2>Dashboard</h2>
+@if (TempData["emIdMt"] != null && (bool)TempData["emIdMt"])
+{
+    <div>
+        <table class="table">
+            <tr>
+                <td>Name</td>
+                <td>@TempData["pName"]</td>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>@TempData["pUsername"]</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>@TempData["pEmail"]</td>
+            </tr>
+            <tr>
+                <td>ID</td>
+                <td>@TempData["pID"]</td>
+            <tr>
+                <td>Password</td>
+                <td>@TempData["pPassword"]</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>@TempData["pDob"]</td>
+            </tr>
+        </table>
+    </div>
+}
