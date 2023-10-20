@@ -1,0 +1,87 @@
+﻿@model IEnumerable<InventoryMS.DTOs.ProductDTO>
+@{
+    ViewBag.Title = "showCart";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+@{
+    int getTotalPrice()
+    {
+        int sum = 0;
+        foreach (var item in Model)
+        {
+            sum += item.Price * ViewBag.pdDictionary[item.Id];
+        }
+        return sum;
+    }
+}
+<h4>Cart</h4>
+@{
+    string getSelectedCategoryId()
+    {
+        if ((TempData["selectedCategory"]) != null)
+        {
+            return (TempData["selectedCategory"].ToString());
+        }
+        return "#";
+    }
+}
+<br /><a class="btn btn-primary" href="/Customer/Dashboard?selectedCategory=@getSelectedCategoryId()">Dashboard</a>
+<br /><br />
+@if (TempData["removedFromCart"] != null && (bool)TempData["removedFromCart"])
+{
+    <div><span class="text-danger">Product removed from Cart</span></div>
+    <br />
+    TempData["removedFromCart"] = false;
+}
+<table class="table">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th></th>
+    </tr>
+
+    @if (ViewBag.pdDictionary != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.Id
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.Price
+                </td>
+                <td>
+                    @ViewBag.pdDictionary[item.Id]
+                </td>
+                <td>
+                    @Html.ActionLink("Remove", "RemoveFromCart", new { Id = item.Id })
+                </td>
+            </tr>
+        }
+    }
+</table>
+<br />
+<div>
+    <span>Total Price in BDT: <b>@getTotalPrice()</b></span>
+</div>
+<br />
+<form action="" method="post">
+    <textarea name="Address" class="form-control" id="Address" cols="30" rows="10" placeholder="Enter your Address">@(ViewBag.Address != null? ViewBag.Address : string.Empty)</textarea>
+    <br />
+    <input type="submit" class="btn btn-success">
+</form>
+<br />

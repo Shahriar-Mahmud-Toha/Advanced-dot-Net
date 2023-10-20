@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lab Work - CRUD Operation - Entity Framework</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    @*d-flex align-items-center justify-content-center*@
+    <div class="container body-content ">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item"><a href="/Product/Index" class="nav-link">Product</a></li>
+                        <li class="nav-item"><a href="/Category/Index" class="nav-link">Category</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        @RenderBody()
+        @*<br><br><br>
+            <hr />
+            <footer>
+                <p>@@Lab Work</p>
+            </footer>*@
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

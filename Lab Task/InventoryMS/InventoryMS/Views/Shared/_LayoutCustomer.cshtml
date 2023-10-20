@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lab Work - CRUD Operation - Entity Framework</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</head>
+<body>
+    @*d-flex align-items-center justify-content-center*@
+    <div class="container body-content ">
+        @RenderBody()
+        @*<br><br><br>
+            <hr />
+            <footer>
+                <p>@@Lab Work</p>
+            </footer>*@
+    </div>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

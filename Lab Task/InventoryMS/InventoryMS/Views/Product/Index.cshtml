@@ -1,0 +1,67 @@
+﻿@model IEnumerable<InventoryMS.DTOs.ProductDTO>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h4>Product List</h4>
+
+@if (TempData["prodRemoved"] != null && (bool)TempData["prodRemoved"])
+{
+    <br />
+    <div><span class="text-danger">Product Deleted</span></div>
+    <br />
+    TempData["prodRemoved"] = false;
+}
+@if (TempData["successPrEdit"] != null && (bool)TempData["successPrEdit"])
+{
+    <br />
+    <div><span class="text-success">Product Information Updated</span></div>
+    <br />
+    TempData["successPrEdit"] = false;
+}
+<br />
+<p>
+    <br /><a class="btn btn-primary" href="/Product/Create">Add Product</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CtId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CtId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
