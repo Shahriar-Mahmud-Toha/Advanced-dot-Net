@@ -1,6 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="InventoryMSModelStoreContainer" CdmEntityContainer="InventoryMSEntities">
+    <EntitySetMapping Name="Authorities">
+      <EntityTypeMapping TypeName="InventoryMSModel.Authority">
+        <MappingFragment StoreEntitySet="Authorities">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Post" ColumnName="Post" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Categories">
       <EntityTypeMapping TypeName="InventoryMSModel.Category">
         <MappingFragment StoreEntitySet="Categories">
@@ -26,6 +35,7 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="CtId" ColumnName="CtId" />
           <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -36,6 +46,8 @@
           <ScalarProperty Name="PdId" ColumnName="PdId" />
           <ScalarProperty Name="CusEmail" ColumnName="CusEmail" />
           <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
+          <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

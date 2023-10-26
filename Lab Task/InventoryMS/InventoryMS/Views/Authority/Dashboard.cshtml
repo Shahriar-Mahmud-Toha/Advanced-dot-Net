@@ -1,0 +1,103 @@
+﻿@model IEnumerable<InventoryMS.EF.ProductsCustomer>
+
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAuthority.cshtml";
+}
+
+<h4>Admin Dashboard</h4>
+<br />
+<br />
+<form action="/Authority/Logout" method="post">
+    <input type="submit" class="btn btn-danger" value="Logout" />
+</form>
+
+<br />
+<br />
+@if (TempData["processed"] != null && (bool)TempData["processed"])
+{
+    <br />
+    <div><span class="text-success">Order Approved</span></div>
+    <br />
+    TempData["processed"] = false;
+}
+@if (TempData["declined"] != null && (bool)TempData["declined"])
+{
+    <br />
+    <div><span class="text-danger">Order Declined</span></div>
+    <br />
+    TempData["declined"] = false;
+}
+<table class="table">
+    <tr>
+        <th>
+            Customer Email
+        </th>
+        <th>
+            Product ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Ordered Quantity
+        </th>
+        <th>
+            In Stock Quantity
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Order Status
+        </th>
+        <th>
+            Order Time
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.CusEmail
+            </td>
+            <td>
+                @item.PdId
+            </td>
+            <td>
+                @item.Product.Name
+            </td>
+            <td>
+                @item.Product.Category.Name
+            </td>
+            <td>
+                @item.Count
+            </td>
+            <td>
+                @item.Product.Quantity
+            </td>
+            <td>
+                @item.Product.Price
+            </td>
+            <td>
+                @item.OrderStatus
+            </td>
+            <td>
+                @item.OrderTime
+            </td>
+            <td>
+                @if (item.OrderStatus == "Ordered")
+                {
+                    <a class="btn btn-success" href="/Authority/Process?id=@item.Id">Process</a>
+                    <a class="btn btn-danger" href="/Authority/Decline?id=@item.Id">Decline</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<InventoryMS.EF.ProductsCustomer>
+@{
+    ViewBag.Title = "showOrders";
+    Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+<br /><a class="btn btn-primary" href="/Customer/Dashboard">Dashboard</a>
+<br />
+<br />
+<h4>All Orders</h4>
+<table class="table">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Category
+        </th>
+        <th>
+            Quantity
+        </th>
+        <th>
+            Price
+        </th>
+        <th>
+            Order Status
+        </th>
+        <th>
+            Order Time
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.PdId
+            </td>
+            <td>
+                @item.Product.Name
+                @*@ViewBag.pdNames[item.PdId]*@
+            </td>
+            <td>
+                @item.Product.Category.Name
+                @*@ViewBag.ctNames[item.PdId]*@
+            </td>
+            <td>
+                @item.Count
+            </td>
+            <td>
+                @item.Product.Price
+                @*@ViewBag.pdPrices[item.PdId]*@
+            </td>
+            <td>
+                @item.OrderStatus
+            </td>
+            <td>
+                @item.OrderTime
+            </td>
+        </tr>
+    }
+
+</table>

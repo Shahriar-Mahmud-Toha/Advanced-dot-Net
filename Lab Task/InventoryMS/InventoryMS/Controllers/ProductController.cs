@@ -79,6 +79,7 @@ namespace InventoryMS.Controllers
                 currData.Name = cData.Name;
                 currData.CtId = cData.CtId;
                 currData.Price = cData.Price;
+                currData.Quantity = cData.Quantity;
                 db.SaveChanges();
                 TempData["successPrEdit"] = true;
                 return RedirectToAction("Index");

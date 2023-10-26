@@ -14,4 +14,12 @@ namespace InventoryMS.Auth
             return false;
         }
     }
+    public class AdminLogged : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext.Session["AdminloggedIn"] != null) return true;
+            return false;
+        }
+    }
 }

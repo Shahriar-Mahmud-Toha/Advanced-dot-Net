@@ -12,16 +12,10 @@ namespace InventoryMS.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class ProductsCustomer
+    public partial class Authority
     {
-        public int Id { get; set; }
-        public int PdId { get; set; }
-        public string CusEmail { get; set; }
-        public int Count { get; set; }
-        public string OrderStatus { get; set; }
-        public Nullable<System.DateTime> OrderTime { get; set; }
-    
-        public virtual Customer Customer { get; set; }
-        public virtual Product Product { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Post { get; set; }
     }
 }

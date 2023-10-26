@@ -11,5 +11,7 @@ namespace InventoryMS.DTOs
         public int PdId { get; set; }
         public string CusEmail { get; set; }
         public int Count { get; set; }
+        public string OrderStatus { get; set; }
+        public Nullable<System.DateTime> OrderTime { get; set; }
     }
 }

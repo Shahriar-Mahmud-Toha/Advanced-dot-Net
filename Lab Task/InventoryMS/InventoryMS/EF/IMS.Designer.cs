@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\InventoryMS\InventoryMS\EF\IMS.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Lab Task\InventoryMS\InventoryMS\EF\IMS.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

@@ -191,17 +191,15 @@ namespace InventoryMS.Controllers
 
                     var db = new InventoryMSEntities();
                     var data = db.Customers.Find(Session["CusEmail"]);
-                    if (data != null)
-                    {
-                        data.Address = c.Address;
-                        db.SaveChanges();
-                    }
+                    data.Address = c.Address;
                     foreach (var item in pdDictionary)
                     {
                         var pc = new ProductsCustomer();
                         pc.PdId = item.Key;
                         pc.CusEmail = Session["CusEmail"].ToString();
                         pc.Count = item.Value;
+                        pc.OrderStatus = "Ordered";
+                        pc.OrderTime = DateTime.Now;
                         products.Add(pc);
                     }
                     foreach (var item in products)
@@ -220,6 +218,52 @@ namespace InventoryMS.Controllers
                 return View();
             }
             return RedirectToAction("Dashboard");
+        }
+        [Logged]
+        public ActionResult showOrders()
+        {
+            var db = new InventoryMSEntities();
+            string cusEmail = Session["CusEmail"].ToString();
+            var data = (from d in db.ProductsCustomers
+                       where d.CusEmail == cusEmail
+                       select d).ToList();
+            #region: Using Viewbag
+            //var pdList = new List<Product>();
+            //var ctNames = new Dictionary<int, string>();
+            //var pdNames = new Dictionary<int, string>();
+            //var pdPrices = new Dictionary<int, int>();
+            //foreach (var p in data)
+            //{
+            //    var pd = db.Products.Find(p.PdId);
+            //    pdList.Add(pd);
+            //    string catName = db.Categories.Find(pd.CtId).Name;
+
+            //    if (!ctNames.ContainsKey(p.PdId))
+            //    {
+            //        ctNames.Add(p.PdId, catName);
+            //    }
+            //    if (!pdNames.ContainsKey(p.PdId))
+            //    {
+            //        pdNames.Add(p.PdId, pd.Name);
+            //    }
+            //    if (!pdPrices.ContainsKey(p.PdId))
+            //    {
+            //        pdPrices.Add(p.PdId, pd.Price);
+            //    }
+            //}
+            //ViewBag.ctNames = ctNames;
+            //ViewBag.pdNames = pdNames;
+            //ViewBag.pdPrices = pdPrices;
+            
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<ProductsCustomer, ProductsCustomerDTO>();
+            //});
+            //var mapper = new Mapper(config);
+            //var cData = mapper.Map<List<ProductsCustomerDTO>>(data);
+            #endregion:Using Viewbag
+            
+            return View(data);
         }
         //public ActionResult showCart()
         //{
