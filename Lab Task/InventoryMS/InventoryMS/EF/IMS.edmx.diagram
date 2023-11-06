@@ -4,15 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="317522090c984ec78ec40eff6b3b0d3f" Name="Diagram1">
+      <Diagram DiagramId="ca4c5c6abac64a3bbf169cec46e6f10e" Name="Diagram1">
         <EntityTypeShape EntityType="InventoryMSModel.Authority" Width="1.5" PointX="5.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryMSModel.Category" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryMSModel.Customer" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryMSModel.Customer" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="InventoryMSModel.OrderDetail" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="InventoryMSModel.Product" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="InventoryMSModel.ProductsCustomer" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
         <AssociationConnector Association="InventoryMSModel.FK_Products_Categories" ManuallyRouted="false" />
-        <AssociationConnector Association="InventoryMSModel.FK_ProductsCustomers_Customers" ManuallyRouted="false" />
-        <AssociationConnector Association="InventoryMSModel.FK_ProductsCustomers_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="InventoryMSModel.FK_OrderDetails_Products" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="InventoryMSModel.OrdersIdTracker" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="InventoryMSModel.Order" Width="1.5" PointX="3" PointY="5" />
+        <AssociationConnector Association="InventoryMSModel.FK_Orders_Customers" />
+        <AssociationConnector Association="InventoryMSModel.FK_OrderDetails_Orders" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

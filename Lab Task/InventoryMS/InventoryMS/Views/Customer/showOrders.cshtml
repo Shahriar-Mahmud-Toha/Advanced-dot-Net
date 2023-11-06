@@ -1,65 +1,81 @@
-﻿@model IEnumerable<InventoryMS.EF.ProductsCustomer>
+﻿@model IEnumerable<InventoryMS.DTOs.OrderDetailDTO>
 @{
     ViewBag.Title = "showOrders";
     Layout = "~/Views/Shared/_LayoutCustomer.cshtml";
+}
+@{
+    string getOrderStatusClass(string status)
+    {
+        string stClass = "text-warning";
+        if (status == "Processing")
+        {
+            stClass = "text-success";
+            return stClass;
+        }
+        if (status == "Declined")
+        {
+            stClass = "text-danger";
+            return stClass;
+        }
+        return stClass;
+    }
 }
 <br /><a class="btn btn-primary" href="/Customer/Dashboard">Dashboard</a>
 <br />
 <br />
 <h4>All Orders</h4>
-<table class="table">
-    <tr>
-        <th>
-            ID
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Quantity
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Order Status
-        </th>
-        <th>
-            Order Time
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@foreach (var item in ViewBag.OrderData)
+{
+    <div>
+        <span class="h5">Order ID: </span><span class="h5 text-info">@(item.OrId)</span> &nbsp; &nbsp;
+        <span class="h5">Order Status: </span><span class="h5 @getOrderStatusClass(item.Status)">@(item.Status)</span> &nbsp; &nbsp;
+        <span class="h5">Order Time: </span><span class="h5 text-secondary">@(item.Time)</span> <br />
+        <span class="h5">Order Delivery Address: </span><span class="h5 text-secondary">@(item.DelAddress)</span> <br />
+    </div>
+    <br />
+    <table class="table">
         <tr>
-            <td>
-                @item.PdId
-            </td>
-            <td>
-                @item.Product.Name
-                @*@ViewBag.pdNames[item.PdId]*@
-            </td>
-            <td>
-                @item.Product.Category.Name
-                @*@ViewBag.ctNames[item.PdId]*@
-            </td>
-            <td>
-                @item.Count
-            </td>
-            <td>
-                @item.Product.Price
-                @*@ViewBag.pdPrices[item.PdId]*@
-            </td>
-            <td>
-                @item.OrderStatus
-            </td>
-            <td>
-                @item.OrderTime
-            </td>
+            <th>
+                ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Quantity
+            </th>
+            <th>
+                Price
+            </th>
         </tr>
-    }
+        @foreach (var orders in Model)
+        {
+            if (orders.OrId == item.OrId)
+            {
 
-</table>
+                <tr>
+                    <td>
+                        @orders.ProductId
+                    </td>
+                    <td>
+                        @ViewBag.pdNames[orders.ProductId]
+                    </td>
+                    <td>
+                        @ViewBag.ctNames[orders.ProductId]
+                    </td>
+                    <td>
+                        @orders.OrderedQuantity
+                    </td>
+                    <td>
+                        @orders.Price
+                    </td>
+                </tr>
+            }
+
+        }
+    </table>
+    <br /><br />
+}

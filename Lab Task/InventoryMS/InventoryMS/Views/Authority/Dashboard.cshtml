@@ -1,103 +1,109 @@
-﻿@model IEnumerable<InventoryMS.EF.ProductsCustomer>
+﻿@model IEnumerable<InventoryMS.DTOs.OrderDetailDTO>
 
 @{
     ViewBag.Title = "Dashboard";
     Layout = "~/Views/Shared/_LayoutAuthority.cshtml";
 }
-
+@{
+    string getOrderStatusClass(string status){
+        string stClass = "text-warning";
+        if(status == "Processing")
+        {
+            stClass = "text-success";
+            return stClass;
+        }
+        if (status == "Declined")
+        {
+            stClass = "text-danger";
+            return stClass;
+        }
+        return stClass;
+    }
+}
 <h4>Admin Dashboard</h4>
-<br />
 <br />
 <form action="/Authority/Logout" method="post">
     <input type="submit" class="btn btn-danger" value="Logout" />
 </form>
-
-<br />
 <br />
 @if (TempData["processed"] != null && (bool)TempData["processed"])
 {
-    <br />
-    <div><span class="text-success">Order Approved</span></div>
+    <div><span class="alert alert-success">Order Approved</span></div>
     <br />
     TempData["processed"] = false;
 }
 @if (TempData["declined"] != null && (bool)TempData["declined"])
 {
+    <div><span class="alert alert-danger">Order Declined</span></div>
     <br />
-    <div><span class="text-danger">Order Declined</span></div>
-    <br />
+
     TempData["declined"] = false;
 }
-<table class="table">
-    <tr>
-        <th>
-            Customer Email
-        </th>
-        <th>
-            Product ID
-        </th>
-        <th>
-            Name
-        </th>
-        <th>
-            Category
-        </th>
-        <th>
-            Ordered Quantity
-        </th>
-        <th>
-            In Stock Quantity
-        </th>
-        <th>
-            Price
-        </th>
-        <th>
-            Order Status
-        </th>
-        <th>
-            Order Time
-        </th>
-        <th>Action</th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+@foreach (var item in ViewBag.OrderData)
+{
+    <div>
+        <span class="h5">Customer Email: </span><span class="h5 text-primary">@(item.CusEmail)</span><br />
+        <span class="h5">Order ID: </span><span class="h5 text-info">@(item.OrId)</span> &nbsp; &nbsp;
+        <span class="h5">Order Status: </span><span class="h5 @getOrderStatusClass(item.Status)">@(item.Status)</span> &nbsp; &nbsp;
+        <span class="h5">Order Time: </span><span class="h5 text-secondary">@(item.Time)</span> <br />
+        <span class="h5">Order Delivery Address: </span><span class="h5 text-secondary">@(item.DelAddress)</span> <br />
+        <div>
+            @if (item.Status == "Ordered")
+            {
+                <br />
+                <a class="btn btn-success" href="/Authority/Process?OrId=@item.OrId">Process</a>
+                <a class="btn btn-danger" href="/Authority/Decline?OrId=@item.OrId">Decline</a>
+            }
+        </div>
+    </div>
+    <br />
+    <table class="table table-bordered">
         <tr>
-            <td>
-                @item.CusEmail
-            </td>
-            <td>
-                @item.PdId
-            </td>
-            <td>
-                @item.Product.Name
-            </td>
-            <td>
-                @item.Product.Category.Name
-            </td>
-            <td>
-                @item.Count
-            </td>
-            <td>
-                @item.Product.Quantity
-            </td>
-            <td>
-                @item.Product.Price
-            </td>
-            <td>
-                @item.OrderStatus
-            </td>
-            <td>
-                @item.OrderTime
-            </td>
-            <td>
-                @if (item.OrderStatus == "Ordered")
-                {
-                    <a class="btn btn-success" href="/Authority/Process?id=@item.Id">Process</a>
-                    <a class="btn btn-danger" href="/Authority/Decline?id=@item.Id">Decline</a>
-                }
-            </td>
+            <th>
+                ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Ordered Quantity
+            </th>
+            <th>
+                In Stock Quantity
+            </th>
+            <th>
+                Price
+            </th>
         </tr>
-    }
-
-</table>
+        @foreach (var orders in Model)
+        {
+            if (orders.OrId == item.OrId)
+            {
+                <tr>
+                    <td>
+                        @orders.ProductId
+                    </td>
+                    <td>
+                        @ViewBag.pdNames[orders.ProductId]
+                    </td>
+                    <td>
+                        @ViewBag.ctNames[orders.ProductId]
+                    </td>
+                    <td>
+                        @orders.OrderedQuantity
+                    </td>
+                    <th>
+                        @ViewBag.pdStQty[orders.ProductId]
+                    </th>
+                    <td>
+                        @orders.Price
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <br /><br />
+}

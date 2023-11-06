@@ -28,7 +28,9 @@ namespace InventoryMS.EF
         public virtual DbSet<Authority> Authorities { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<ProductsCustomer> ProductsCustomers { get; set; }
+        public virtual DbSet<OrdersIdTracker> OrdersIdTrackers { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
     }
 }

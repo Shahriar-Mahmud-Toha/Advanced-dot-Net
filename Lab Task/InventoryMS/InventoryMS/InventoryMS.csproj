@@ -139,8 +139,9 @@
     <Compile Include="DTOs\AuthorityDTO.cs" />
     <Compile Include="DTOs\CategoryDTO.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
+    <Compile Include="DTOs\OrderDetailDTO.cs" />
+    <Compile Include="DTOs\OrderDTO.cs" />
     <Compile Include="DTOs\ProductDTO.cs" />
-    <Compile Include="DTOs\ProductsCustomerDTO.cs" />
     <Compile Include="EF\Authority.cs">
       <DependentUpon>IMS.tt</DependentUpon>
     </Compile>
@@ -165,10 +166,16 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IMS.edmx</DependentUpon>
     </Compile>
-    <Compile Include="EF\Product.cs">
+    <Compile Include="EF\Order.cs">
       <DependentUpon>IMS.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\ProductsCustomer.cs">
+    <Compile Include="EF\OrderDetail.cs">
+      <DependentUpon>IMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\OrdersIdTracker.cs">
+      <DependentUpon>IMS.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Product.cs">
       <DependentUpon>IMS.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">

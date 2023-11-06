@@ -24,7 +24,17 @@
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Password" ColumnName="Password" />
-          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderDetails">
+      <EntityTypeMapping TypeName="InventoryMSModel.OrderDetail">
+        <MappingFragment StoreEntitySet="OrderDetails">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="OrId" ColumnName="OrId" />
+          <ScalarProperty Name="OrderedQuantity" ColumnName="OrderedQuantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="ProductId" ColumnName="ProductId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -39,15 +49,22 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="ProductsCustomers">
-      <EntityTypeMapping TypeName="InventoryMSModel.ProductsCustomer">
-        <MappingFragment StoreEntitySet="ProductsCustomers">
+    <EntitySetMapping Name="OrdersIdTrackers">
+      <EntityTypeMapping TypeName="InventoryMSModel.OrdersIdTracker">
+        <MappingFragment StoreEntitySet="OrdersIdTracker">
+          <ScalarProperty Name="LastOrderId" ColumnName="LastOrderId" />
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="PdId" ColumnName="PdId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Orders">
+      <EntityTypeMapping TypeName="InventoryMSModel.Order">
+        <MappingFragment StoreEntitySet="Orders">
+          <ScalarProperty Name="DelAddress" ColumnName="DelAddress" />
           <ScalarProperty Name="CusEmail" ColumnName="CusEmail" />
-          <ScalarProperty Name="Count" ColumnName="Count" />
-          <ScalarProperty Name="OrderStatus" ColumnName="OrderStatus" />
-          <ScalarProperty Name="OrderTime" ColumnName="OrderTime" />
+          <ScalarProperty Name="Time" ColumnName="Time" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="OrId" ColumnName="OrId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

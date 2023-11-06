@@ -91,10 +91,10 @@ namespace InventoryMS.Controllers
         {
             var db = new InventoryMSEntities();
             
-            var relData = from r in db.ProductsCustomers
-                          where r.PdId == Id
+            var relData = from r in db.OrderDetails
+                          where r.ProductId == Id
                           select r;
-            db.ProductsCustomers.RemoveRange(relData);
+            db.OrderDetails.RemoveRange(relData);
 
             var currData = from data in db.Products
                            where data.Id == Id

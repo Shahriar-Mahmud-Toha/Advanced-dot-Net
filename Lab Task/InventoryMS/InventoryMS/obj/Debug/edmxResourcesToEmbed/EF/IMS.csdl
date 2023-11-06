@@ -23,8 +23,19 @@
     <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <NavigationProperty Name="ProductsCustomers" Relationship="Self.FK_ProductsCustomers_Customers" FromRole="Customers" ToRole="ProductsCustomers" />
+    <NavigationProperty Name="Orders" Relationship="InventoryMSModel.FK_Orders_Customers" FromRole="Customer" ToRole="Order" />
+  </EntityType>
+  <EntityType Name="OrderDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrId" Type="Int32" Nullable="false" />
+    <Property Name="OrderedQuantity" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Product" Relationship="Self.FK_OrderDetails_Products" FromRole="OrderDetails" ToRole="Products" />
+    <NavigationProperty Name="Order" Relationship="InventoryMSModel.FK_OrderDetails_Orders" FromRole="OrderDetail" ToRole="Order" />
   </EntityType>
   <EntityType Name="Product">
     <Key>
@@ -36,20 +47,7 @@
     <Property Name="Price" Type="Int32" Nullable="false" />
     <Property Name="Quantity" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Category" Relationship="Self.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
-    <NavigationProperty Name="ProductsCustomers" Relationship="Self.FK_ProductsCustomers_Products" FromRole="Products" ToRole="ProductsCustomers" />
-  </EntityType>
-  <EntityType Name="ProductsCustomer">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
-    <Property Name="PdId" Type="Int32" Nullable="false" />
-    <Property Name="CusEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Count" Type="Int32" Nullable="false" />
-    <Property Name="OrderStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="OrderTime" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Customer" Relationship="Self.FK_ProductsCustomers_Customers" FromRole="ProductsCustomers" ToRole="Customers" />
-    <NavigationProperty Name="Product" Relationship="Self.FK_ProductsCustomers_Products" FromRole="ProductsCustomers" ToRole="Products" />
+    <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
   </EntityType>
   <Association Name="FK_Products_Categories">
     <End Role="Categories" Type="Self.Category" Multiplicity="1" />
@@ -63,27 +61,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_ProductsCustomers_Customers">
-    <End Role="Customers" Type="Self.Customer" Multiplicity="1" />
-    <End Role="ProductsCustomers" Type="Self.ProductsCustomer" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Customers">
-        <PropertyRef Name="Email" />
-      </Principal>
-      <Dependent Role="ProductsCustomers">
-        <PropertyRef Name="CusEmail" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ProductsCustomers_Products">
+  <Association Name="FK_OrderDetails_Products">
     <End Role="Products" Type="Self.Product" Multiplicity="1" />
-    <End Role="ProductsCustomers" Type="Self.ProductsCustomer" Multiplicity="*" />
+    <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Products">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="ProductsCustomers">
-        <PropertyRef Name="PdId" />
+      <Dependent Role="OrderDetails">
+        <PropertyRef Name="ProductId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -91,19 +77,68 @@
     <EntitySet Name="Authorities" EntityType="Self.Authority" />
     <EntitySet Name="Categories" EntityType="Self.Category" />
     <EntitySet Name="Customers" EntityType="Self.Customer" />
+    <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
     <EntitySet Name="Products" EntityType="Self.Product" />
-    <EntitySet Name="ProductsCustomers" EntityType="Self.ProductsCustomer" />
     <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
       <End Role="Categories" EntitySet="Categories" />
       <End Role="Products" EntitySet="Products" />
     </AssociationSet>
-    <AssociationSet Name="FK_ProductsCustomers_Customers" Association="Self.FK_ProductsCustomers_Customers">
-      <End Role="Customers" EntitySet="Customers" />
-      <End Role="ProductsCustomers" EntitySet="ProductsCustomers" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ProductsCustomers_Products" Association="Self.FK_ProductsCustomers_Products">
+    <AssociationSet Name="FK_OrderDetails_Products" Association="Self.FK_OrderDetails_Products">
       <End Role="Products" EntitySet="Products" />
-      <End Role="ProductsCustomers" EntitySet="ProductsCustomers" />
+      <End Role="OrderDetails" EntitySet="OrderDetails" />
+    </AssociationSet>
+    <EntitySet Name="OrdersIdTrackers" EntityType="InventoryMSModel.OrdersIdTracker" />
+    <EntitySet Name="Orders" EntityType="InventoryMSModel.Order" />
+    <AssociationSet Name="FK_Orders_Customers" Association="InventoryMSModel.FK_Orders_Customers">
+      <End Role="Customer" EntitySet="Customers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrderDetails_Orders" Association="InventoryMSModel.FK_OrderDetails_Orders">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderDetail" EntitySet="OrderDetails" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="OrdersIdTracker">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LastOrderId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="OrId" />
+    </Key>
+    <Property Name="OrId" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="CusEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DelAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Customer" Relationship="InventoryMSModel.FK_Orders_Customers" FromRole="Order" ToRole="Customer" />
+    <NavigationProperty Name="OrderDetails" Relationship="InventoryMSModel.FK_OrderDetails_Orders" FromRole="Order" ToRole="OrderDetail" />
+  </EntityType>
+  <Association Name="FK_Orders_Customers">
+    <End Type="InventoryMSModel.Customer" Role="Customer" Multiplicity="1" />
+    <End Type="InventoryMSModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="CusEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrderDetails_Orders">
+    <End Type="InventoryMSModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="InventoryMSModel.OrderDetail" Role="OrderDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="OrId" />
+      </Principal>
+      <Dependent Role="OrderDetail">
+        <PropertyRef Name="OrId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
