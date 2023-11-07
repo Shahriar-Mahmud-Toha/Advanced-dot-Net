@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0f1e0983054b46c19d1df9ede1ba34f0" Name="Diagram1">
+        <EntityTypeShape EntityType="FoodRescueTrackerSystemModel.FoodCollection" Width="1.5" PointX="3" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodRescueTrackerSystemModel.NGOAuthority" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodRescueTrackerSystemModel.NGOEmployee" Width="1.5" PointX="0.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FoodRescueTrackerSystemModel.RestaurantAuthority" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOAuthorities" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" ManuallyRouted="false" />
+        <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_RestaurantAuthorities" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
