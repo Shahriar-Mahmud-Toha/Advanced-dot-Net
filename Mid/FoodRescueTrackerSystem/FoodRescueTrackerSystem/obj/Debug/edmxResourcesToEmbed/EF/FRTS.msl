@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FoodRescueTrackerSystemModelStoreContainer" CdmEntityContainer="FoodRescueTrackerSystemEntities">
+    <EntitySetMapping Name="NGOAuthorities">
+      <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.NGOAuthority">
+        <MappingFragment StoreEntitySet="NGOAuthorities">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="NGOEmployees">
+      <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.NGOEmployee">
+        <MappingFragment StoreEntitySet="NGOEmployees">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RestaurantAuthorities">
+      <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.RestaurantAuthority">
+        <MappingFragment StoreEntitySet="RestaurantAuthorities">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FoodCollections">
+      <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.FoodCollection">
+        <MappingFragment StoreEntitySet="FoodCollections">
+          <ScalarProperty Name="DistributorEmail" ColumnName="DistributorEmail" />
+          <ScalarProperty Name="ApproverEmail" ColumnName="ApproverEmail" />
+          <ScalarProperty Name="RequestCreatorEmail" ColumnName="RequestCreatorEmail" />
+          <ScalarProperty Name="DistributionTime" ColumnName="DistributionTime" />
+          <ScalarProperty Name="CollectionTime" ColumnName="CollectionTime" />
+          <ScalarProperty Name="ApprovalTime" ColumnName="ApprovalTime" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="DueTime" ColumnName="DueTime" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

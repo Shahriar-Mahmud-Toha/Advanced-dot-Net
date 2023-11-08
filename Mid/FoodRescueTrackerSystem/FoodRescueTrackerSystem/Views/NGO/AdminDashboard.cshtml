@@ -1,0 +1,150 @@
+﻿@model IEnumerable<FoodRescueTrackerSystem.DTOs.FoodCollectionDTO>
+
+@{
+    ViewBag.Title = "AdminDashboard";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+@{
+    string distributorsList()
+    {
+        string flag = "<select name = \"DistributorEmail\" id = \"DistributorEmail\" class=\"form-control dtbSel\"><option disabled selected>--Select an Employee--</option>";
+        //flag += "<option>One</option>";
+        if(ViewBag.empData != null)
+        {
+            foreach (var item in ViewBag.empData)
+            {
+                flag += "<option value=\""+item.Email+"\">" + item.Name + " : " + item.Email + "</option>";
+            }
+        }
+        return flag + "</select >";
+    }
+
+    string empList = distributorsList();
+}
+<h2>AdminDashboard</h2>
+<div>
+    @if (TempData["NoDataFoundMsg"] != null && (bool)TempData["NoDataFoundMsg"])
+    {
+        <span class="text-danger text-danger">Employee Not Found</span><br />
+    }
+</div>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Request Creation Time
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Due Time
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Comments
+        </th>
+        <th>
+            Distributor
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RequestTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @if (item.Status != "Requested")
+                {
+                    @item.DistributorEmail
+                }
+                else
+                {
+                    <form action="/NGO/Process" method="post">
+                        <input type="hidden" name="reqId" value="@item.Id" />
+                        @Html.Raw(empList)
+                        &nbsp;&nbsp; <input type="submit" value="Process Request" class="btn btn-success">
+                    </form>
+                }
+            </td>
+            <td>
+                @{ 
+                    string modalId = "Modal" + item.Id;
+                    string modalLabelId = "ModalLabel" + item.Id;
+                }
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#@modalId">
+                    Details
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@modalLabelId" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="@modalLabelId">Collection Details</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div>
+                                    Approval Time: @item.ApprovalTime
+                                </div>
+                                <div>
+                                    Collection Time: @item.CollectionTime
+                                </div>
+                                <div>
+                                    Distribution Time: @item.DistributionTime
+                                </div>
+                                <div>
+                                    Request Creator Name: @if(item.RequestCreatorEmail != null){<span>@ViewBag.resAuthNames[item.RequestCreatorEmail]</span>}
+                                </div>
+                                <div>
+                                    Request Creator Email: @item.RequestCreatorEmail
+                                </div>
+                                <div>
+                                    Approver Name: @if(item.ApproverEmail != null) {<span>@ViewBag.ngoAuthNames[item.ApproverEmail]</span>}
+                                </div>
+                                <div>
+                                    Approver Email: @item.ApproverEmail
+                                </div>
+                                <div>
+                                    Distributor Name: @if(item.DistributorEmail != null) {<span>@ViewBag.empNames[item.DistributorEmail]</span>}
+                                </div>
+                                <div>
+                                    Distributor Email: @item.DistributorEmail
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

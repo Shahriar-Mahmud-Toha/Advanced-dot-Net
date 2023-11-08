@@ -25,9 +25,9 @@ namespace FoodRescueTrackerSystem.EF
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<FoodCollection> FoodCollections { get; set; }
         public virtual DbSet<NGOAuthority> NGOAuthorities { get; set; }
         public virtual DbSet<NGOEmployee> NGOEmployees { get; set; }
         public virtual DbSet<RestaurantAuthority> RestaurantAuthorities { get; set; }
+        public virtual DbSet<FoodCollection> FoodCollections { get; set; }
     }
 }

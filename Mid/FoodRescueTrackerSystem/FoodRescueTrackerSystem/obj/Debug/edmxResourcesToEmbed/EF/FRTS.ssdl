@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodRescueTrackerSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="FoodCollections">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RequestTime" Type="datetime" Nullable="false" />
+    <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="DueTime" Type="datetime" Nullable="false" />
+    <Property Name="Status" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Comments" Type="varchar" MaxLength="50" />
+    <Property Name="ApprovalTime" Type="datetime" />
+    <Property Name="CollectionTime" Type="datetime" />
+    <Property Name="DistributionTime" Type="datetime" />
+    <Property Name="RequestCreatorEmail" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ApproverEmail" Type="varchar" MaxLength="50" />
+    <Property Name="DistributorEmail" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="NGOAuthorities">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="NGOEmployees">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RestaurantAuthorities">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_FoodCollections_NGOAuthorities">
+    <End Role="NGOAuthorities" Type="Self.NGOAuthorities" Multiplicity="0..1" />
+    <End Role="FoodCollections" Type="Self.FoodCollections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOAuthorities">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollections">
+        <PropertyRef Name="ApproverEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollections_NGOEmployees">
+    <End Role="NGOEmployees" Type="Self.NGOEmployees" Multiplicity="0..1" />
+    <End Role="FoodCollections" Type="Self.FoodCollections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOEmployees">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollections">
+        <PropertyRef Name="DistributorEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollections_RestaurantAuthorities">
+    <End Role="RestaurantAuthorities" Type="Self.RestaurantAuthorities" Multiplicity="1" />
+    <End Role="FoodCollections" Type="Self.FoodCollections" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RestaurantAuthorities">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollections">
+        <PropertyRef Name="RequestCreatorEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FoodRescueTrackerSystemModelStoreContainer">
+    <EntitySet Name="FoodCollections" EntityType="Self.FoodCollections" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NGOAuthorities" EntityType="Self.NGOAuthorities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NGOEmployees" EntityType="Self.NGOEmployees" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RestaurantAuthorities" EntityType="Self.RestaurantAuthorities" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_FoodCollections_NGOAuthorities" Association="Self.FK_FoodCollections_NGOAuthorities">
+      <End Role="NGOAuthorities" EntitySet="NGOAuthorities" />
+      <End Role="FoodCollections" EntitySet="FoodCollections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollections_NGOEmployees" Association="Self.FK_FoodCollections_NGOEmployees">
+      <End Role="NGOEmployees" EntitySet="NGOEmployees" />
+      <End Role="FoodCollections" EntitySet="FoodCollections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollections_RestaurantAuthorities" Association="Self.FK_FoodCollections_RestaurantAuthorities">
+      <End Role="RestaurantAuthorities" EntitySet="RestaurantAuthorities" />
+      <End Role="FoodCollections" EntitySet="FoodCollections" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

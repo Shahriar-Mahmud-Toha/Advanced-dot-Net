@@ -18,3 +18,29 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.start {
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.start a {
+    margin: 15px;
+    font-size: 30px;
+}
+.centerAnything {
+    display: flex;
+    justify-content: center;
+}
+
+.vrSpace {
+    height: 20px;
+}
+.inputField {
+    margin: 10px 0;
+}
+.dtbSel{
+   display: inline-block;
+}

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<FoodRescueTrackerSystem.DTOs.FoodCollectionDTO>
+
+@{
+    ViewBag.Title = "EmployeeDashboard";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>NGO Employee Dashboard</h2>
+<div>
+    @if (TempData["NoDataFoundMsg"] != null && (bool)TempData["NoDataFoundMsg"])
+    {
+        <span class="text-danger text-danger">No Valid Collection Request Found</span><br />
+    }
+</div>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Address
+        </th>
+        <th>
+            Due Time
+        </th>
+        <th>
+            Status
+        </th>
+        <th>
+            Comments
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Where(s => s.Status!= "Requested"))
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DueTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @if (item.Status == "Accepted")
+                {
+                    <form action="/NGO/Collected" method="post">
+                        <input type="hidden" name="reqId" value="@item.Id" />
+                        &nbsp;&nbsp; <input type="submit" value="Mark as Collected" class="btn btn-warning">
+                    </form>
+                }
+                @if (item.Status == "Collected")
+                {
+                    <form action="/NGO/Distributed" method="post">
+                        <input type="hidden" name="reqId" value="@item.Id" />
+                        &nbsp;&nbsp; <input type="submit" value="Mark as Distributed" class="btn btn-success">
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FoodRescueTrackerSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="NGOAuthority">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodCollections" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOAuthorities" FromRole="NGOAuthority" ToRole="FoodCollection" />
+  </EntityType>
+  <EntityType Name="NGOEmployee">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodCollections" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" FromRole="NGOEmployee" ToRole="FoodCollection" />
+  </EntityType>
+  <EntityType Name="RestaurantAuthority">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="FoodCollections" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_RestaurantAuthorities" FromRole="RestaurantAuthority" ToRole="FoodCollection" />
+  </EntityType>
+  <EntityContainer Name="FoodRescueTrackerSystemEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="NGOAuthorities" EntityType="Self.NGOAuthority" />
+    <EntitySet Name="NGOEmployees" EntityType="Self.NGOEmployee" />
+    <EntitySet Name="RestaurantAuthorities" EntityType="Self.RestaurantAuthority" />
+    <EntitySet Name="FoodCollections" EntityType="FoodRescueTrackerSystemModel.FoodCollection" />
+    <AssociationSet Name="FK_FoodCollections_NGOAuthorities" Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOAuthorities">
+      <End Role="NGOAuthority" EntitySet="NGOAuthorities" />
+      <End Role="FoodCollection" EntitySet="FoodCollections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollections_NGOEmployees" Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees">
+      <End Role="NGOEmployee" EntitySet="NGOEmployees" />
+      <End Role="FoodCollection" EntitySet="FoodCollections" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FoodCollections_RestaurantAuthorities" Association="FoodRescueTrackerSystemModel.FK_FoodCollections_RestaurantAuthorities">
+      <End Role="RestaurantAuthority" EntitySet="RestaurantAuthorities" />
+      <End Role="FoodCollection" EntitySet="FoodCollections" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="FoodCollection">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RequestTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DueTime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Status" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Comments" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ApprovalTime" Type="DateTime" Precision="3" />
+    <Property Name="CollectionTime" Type="DateTime" Precision="3" />
+    <Property Name="DistributionTime" Type="DateTime" Precision="3" />
+    <Property Name="RequestCreatorEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ApproverEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DistributorEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="NGOAuthority" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOAuthorities" FromRole="FoodCollection" ToRole="NGOAuthority" />
+    <NavigationProperty Name="NGOEmployee" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" FromRole="FoodCollection" ToRole="NGOEmployee" />
+    <NavigationProperty Name="RestaurantAuthority" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_RestaurantAuthorities" FromRole="FoodCollection" ToRole="RestaurantAuthority" />
+  </EntityType>
+  <Association Name="FK_FoodCollections_NGOAuthorities">
+    <End Type="FoodRescueTrackerSystemModel.NGOAuthority" Role="NGOAuthority" Multiplicity="0..1" />
+    <End Type="FoodRescueTrackerSystemModel.FoodCollection" Role="FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOAuthority">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="ApproverEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollections_NGOEmployees">
+    <End Type="FoodRescueTrackerSystemModel.NGOEmployee" Role="NGOEmployee" Multiplicity="0..1" />
+    <End Type="FoodRescueTrackerSystemModel.FoodCollection" Role="FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NGOEmployee">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="DistributorEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FoodCollections_RestaurantAuthorities">
+    <End Type="FoodRescueTrackerSystemModel.RestaurantAuthority" Role="RestaurantAuthority" Multiplicity="1" />
+    <End Type="FoodRescueTrackerSystemModel.FoodCollection" Role="FoodCollection" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RestaurantAuthority">
+        <PropertyRef Name="Email" />
+      </Principal>
+      <Dependent Role="FoodCollection">
+        <PropertyRef Name="RequestCreatorEmail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
