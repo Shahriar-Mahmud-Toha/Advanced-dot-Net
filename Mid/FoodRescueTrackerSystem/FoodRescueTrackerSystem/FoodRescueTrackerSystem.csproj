@@ -170,6 +170,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validators\UniqueAuthorValidator.cs" />
     <Compile Include="Validators\EmployeeValidator.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -242,6 +243,12 @@
     <Content Include="Views\Restaurant\Dashboard.cshtml" />
     <Content Include="Views\NGO\AdminDashboard.cshtml" />
     <Content Include="Views\NGO\EmployeeDashboard.cshtml" />
+    <Content Include="Views\NGO\LoginAdmin.cshtml" />
+    <Content Include="Views\NGO\SignupAdmin.cshtml" />
+    <Content Include="Views\NGO\LoginEmployee.cshtml" />
+    <Content Include="Views\NGO\SignupEmployee.cshtml" />
+    <Content Include="Views\Restaurant\LoginAdmin.cshtml" />
+    <Content Include="Views\Restaurant\SignupAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,39 @@
+﻿@model FoodRescueTrackerSystem.DTOs.NGOAuthorityDTO
+
+@{
+    ViewBag.Title = "Login - Admin - NGO";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="vrSpace"></div>
+<h2 align="center">Login</h2>
+<div class="vrSpace"></div>
+<div class="centerAnything">
+    <div>
+        <form action="" method="post" class="form-control">
+
+            <label for="Email" class="form-check-label">Email</label>
+            <input type="text" class="form-control" name="Email" id="Email" value="@(Model !=null && Model.Email != null?Model.Email:"")" placeholder="Enter your Email">
+
+            <label for="Password" class="form-check-label">Password</label>
+            <input type="text" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
+            @if (TempData["emptyField"] != null && (bool)TempData["emptyField"])
+            {
+                <div><span class="text-danger">All the field must be filled</span></div>
+                TempData["emptyField"] = null;
+            }
+            @if (TempData["passNotMatched"] != null && (bool)TempData["passNotMatched"])
+            {
+                <div><span class="text-danger">Email or Password Not Matched.</span></div>
+                TempData["passNotMatched"] = null;
+            }
+            <div class="vrSpace"></div>
+            <div class="centerAnything">
+                <input type="submit" name="submit" class="btn btn-success" value="Login">
+            </div>
+            <div class="vrSpace"></div>
+            <div>
+                <a href="/NGO/SignupAdmin">Don't have an account? Signup</a>
+            </div>
+        </form>
+    </div>
+</div>

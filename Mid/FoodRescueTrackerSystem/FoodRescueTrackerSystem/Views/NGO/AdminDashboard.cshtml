@@ -9,11 +9,11 @@
     {
         string flag = "<select name = \"DistributorEmail\" id = \"DistributorEmail\" class=\"form-control dtbSel\"><option disabled selected>--Select an Employee--</option>";
         //flag += "<option>One</option>";
-        if(ViewBag.empData != null)
+        if (ViewBag.empData != null)
         {
             foreach (var item in ViewBag.empData)
             {
-                flag += "<option value=\""+item.Email+"\">" + item.Name + " : " + item.Email + "</option>";
+                flag += "<option value=\"" + item.Email + "\">" + item.Name + " : " + item.Email + "</option>";
             }
         }
         return flag + "</select >";
@@ -71,9 +71,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DueTime)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
+            @if (@item.Status == "Accepted")
+            {
+                <td class="text text-primary">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            }
+            @if (@item.Status == "Collected")
+            {
+                <td class="text text-warning">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            }
+            @if (@item.Status == "Distributed")
+            {
+                <td class="text text-success">
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+            }
             <td>
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
@@ -92,7 +107,7 @@
                 }
             </td>
             <td>
-                @{ 
+                @{
                     string modalId = "Modal" + item.Id;
                     string modalLabelId = "ModalLabel" + item.Id;
                 }
@@ -120,19 +135,22 @@
                                     Distribution Time: @item.DistributionTime
                                 </div>
                                 <div>
-                                    Request Creator Name: @if(item.RequestCreatorEmail != null){<span>@ViewBag.resAuthNames[item.RequestCreatorEmail]</span>}
+                                    Request Creator Name: @if (item.RequestCreatorEmail != null)
+                                    {<span>@ViewBag.resAuthNames[item.RequestCreatorEmail]</span>}
                                 </div>
                                 <div>
                                     Request Creator Email: @item.RequestCreatorEmail
                                 </div>
                                 <div>
-                                    Approver Name: @if(item.ApproverEmail != null) {<span>@ViewBag.ngoAuthNames[item.ApproverEmail]</span>}
+                                    Approver Name: @if (item.ApproverEmail != null)
+                                    {<span>@ViewBag.ngoAuthNames[item.ApproverEmail]</span>}
                                 </div>
                                 <div>
                                     Approver Email: @item.ApproverEmail
                                 </div>
                                 <div>
-                                    Distributor Name: @if(item.DistributorEmail != null) {<span>@ViewBag.empNames[item.DistributorEmail]</span>}
+                                    Distributor Name: @if (item.DistributorEmail != null)
+                                    {<span>@ViewBag.empNames[item.DistributorEmail]</span>}
                                 </div>
                                 <div>
                                     Distributor Email: @item.DistributorEmail

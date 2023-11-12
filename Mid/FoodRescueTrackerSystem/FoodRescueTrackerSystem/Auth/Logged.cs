@@ -6,19 +6,27 @@ using System.Web.Mvc;
 
 namespace FoodRescueTrackerSystem.Auth
 {
-    public class Logged : AuthorizeAttribute
-    {
-        protected override bool AuthorizeCore(HttpContextBase httpContext)
-        {
-            if (httpContext.Session["loggedIn"] != null) return true;
-            return false;
-        }
-    }
     public class AdminLogged : AuthorizeAttribute
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (httpContext.Session["AdminloggedIn"] != null) return true;
+            if (httpContext.Session["ngoAdminAuthLogged"] != null) return true;
+            return false;
+        }
+    }
+    public class EmployeeLogged : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext.Session["ngoEmpLogged"] != null) return true;
+            return false;
+        }
+    }
+    public class ResAdminLogged : AuthorizeAttribute
+    {
+        protected override bool AuthorizeCore(HttpContextBase httpContext)
+        {
+            if (httpContext.Session["resAdminAuthLogged"] != null) return true;
             return false;
         }
     }

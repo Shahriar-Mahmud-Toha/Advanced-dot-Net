@@ -64,9 +64,30 @@
         <td>
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
+        @if (@item.Status == "Accepted")
+        {
+            <td class="text text-primary">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        }
+        @if (@item.Status == "Collected")
+        {
+            <td class="text text-warning">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        }
+        @if (@item.Status == "Distributed")
+        {
+            <td class="text text-success">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        }
+        @if (@item.Status == "Requested")
+        {
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+        }
     </tr>
 }
 </table>

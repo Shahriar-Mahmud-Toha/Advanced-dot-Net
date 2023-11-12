@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FoodRescueTrackerSystem.Auth;
 using FoodRescueTrackerSystem.DTOs;
 using FoodRescueTrackerSystem.EF;
 using System;
@@ -12,11 +13,68 @@ namespace FoodRescueTrackerSystem.Controllers
 {
     public class RestaurantController : Controller
     {
+        public bool confirmPassChecker(string password, string cPassword)
+        {
+            if (password == cPassword)
+            {
+                return true;
+            }
+            TempData["cPassInvalid"] = true;
+            return false;
+        }
+
         [HttpGet]
+        public ActionResult LoginAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LoginAdmin(string Email, string Password)
+        {
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            {
+                TempData["emptyField"] = true;
+                return View(new RestaurantAuthorityDTO { Email = Email, Name = null, Password = null });
+            }
+
+            var db = new FoodRescueTrackerSystemEntities();
+            if (db.RestaurantAuthorities.Where(d => d.Email == Email && d.Password == Password).SingleOrDefault() != null)
+            {
+                Session["resAdminAuthLogged"] = true;
+                Session["resAdminAuthEmail"] = Email;
+                return RedirectToAction("Dashboard");
+            }
+            TempData["passNotMatched"] = true;
+            return View(new RestaurantAuthorityDTO { Email = Email, Name = null, Password = null });
+        }
+        [HttpGet]
+        public ActionResult SignupAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SignupAdmin(RestaurantAuthorityDTO n, string cPassword)
+        {
+            if (!ModelState.IsValid) { return View(n); }
+            if (string.IsNullOrEmpty(cPassword)) { return View(n); }
+            if (!confirmPassChecker(n.Password, cPassword)) { return View(n); }
+
+            var db = new FoodRescueTrackerSystemEntities();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<RestaurantAuthorityDTO, RestaurantAuthority>();
+            });
+            var mapper = new Mapper(config);
+            var cData = mapper.Map<RestaurantAuthority>(n);
+
+            db.RestaurantAuthorities.Add(cData);
+            db.SaveChanges();
+            return RedirectToAction("LoginAdmin");
+        }
+        [HttpGet]
+        [ResAdminLogged]
         public ActionResult Dashboard()
         {
-            Session["resAuthEmail"] = "r@mail.com"; //must be removed this line
-
             var db = new FoodRescueTrackerSystemEntities();
             var data = db.FoodCollections.ToList();
             var config = new MapperConfiguration(cfg =>
@@ -28,6 +86,7 @@ namespace FoodRescueTrackerSystem.Controllers
             return View(cData);
         }
         [HttpPost]
+        [ResAdminLogged]
         public ActionResult Dashboard(FoodCollectionDTO f)
         {
             var config = new MapperConfiguration(cfg =>
@@ -40,7 +99,7 @@ namespace FoodRescueTrackerSystem.Controllers
             var db = new FoodRescueTrackerSystemEntities();
             cData.RequestTime = DateTime.Now;
             cData.Status = "Requested";
-            cData.RequestCreatorEmail = Session["resAuthEmail"].ToString();
+            cData.RequestCreatorEmail = Session["resAdminAuthEmail"].ToString();
             db.FoodCollections.Add(cData);
             db.SaveChanges();
             return RedirectToAction("Dashboard");

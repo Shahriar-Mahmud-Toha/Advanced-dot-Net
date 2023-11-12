@@ -1,0 +1,45 @@
+﻿@model FoodRescueTrackerSystem.DTOs.RestaurantAuthorityDTO
+
+@{
+    ViewBag.Title = "Admin - Signup - Restaurant";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<div class="vrSpace"></div>
+<h2 align="center">Signup</h2>
+<div class="vrSpace"></div>
+<div class="centerAnything">
+    <div>
+        <form action="" method="post" class="form-control">
+            <label for="Name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="Name" id="Name" value="@(Model !=null && Model.Name != null?Model.Name:"")" placeholder="Enter your Name">
+            <div><span class="text-danger">@Html.ValidationMessage("Name")</span></div>
+
+            <label for="Email" class="form-label">Email</label>
+            <input type="text" class="form-control" name="Email" id="Email" value="@(Model !=null && Model.Email != null?Model.Email:"")" placeholder="Enter your Email">
+            <div><span class="text-danger">@Html.ValidationMessage("Email")</span></div>
+
+            <label for="Password" class="form-label">Password</label>
+            <input type="text" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
+            <div><span class="text-danger">@Html.ValidationMessage("Password")</span></div>
+
+            <label for="cPassword" class="form-label">Confirm Password</label>
+            <input type="text" class="form-control" name="cPassword" id="cPassword" placeholder="Confirm your Password">
+            <div><span class="text-danger">@Html.ValidationMessage("cPassword")</span></div>
+            @if (TempData["cPassInvalid"] != null && (bool)TempData["cPassInvalid"])
+            {
+                <div><span class="text-danger">Password and Confirm Password must be same</span></div>
+                TempData["cPassInvalid"] = null;
+            }
+
+            <div class="vrSpace"></div>
+            <div class="centerAnything">
+                <input type="submit" name="submit" class="btn btn-success" value="Signup">
+            </div>
+            <div class="vrSpace"></div>
+            <div>
+                <a href="/Restaurant/LoginAdmin">Already have an account? Login</a>
+            </div>
+        </form>
+    </div>
+
+</div>

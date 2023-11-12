@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FoodRescueTrackerSystem.Auth;
 using FoodRescueTrackerSystem.DTOs;
 using FoodRescueTrackerSystem.EF;
 using System;
@@ -11,10 +12,67 @@ namespace FoodRescueTrackerSystem.Controllers
 {
     public class NGOController : Controller
     {
+        public bool confirmPassChecker(string password, string cPassword)
+        {
+            if (password == cPassword)
+            {
+                return true;
+            }
+            TempData["cPassInvalid"] = true;
+            return false;
+        }
+
+        [HttpGet]
+        public ActionResult LoginAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LoginAdmin(string Email, string Password)
+        {
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password)) {
+                TempData["emptyField"] = true;
+                return View(new NGOAuthorityDTO { Email = Email, Name = null, Password = null }); 
+            }
+
+            var db = new FoodRescueTrackerSystemEntities();
+            if(db.NGOAuthorities.Where(d=>d.Email ==  Email && d.Password == Password).SingleOrDefault() != null)
+            {
+                Session["ngoAdminAuthLogged"] = true;
+                Session["ngoAdminAuthEmail"] = Email;
+                return RedirectToAction("AdminDashboard");
+            }
+            TempData["passNotMatched"] = true;
+            return View(new NGOAuthorityDTO { Email=Email, Name=null, Password=null});
+        }
+        [HttpGet]
+        public ActionResult SignupAdmin()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SignupAdmin(NGOAuthorityDTO n, string cPassword)
+        {
+            if (!ModelState.IsValid) { return View(n); }
+            if (string.IsNullOrEmpty(cPassword)) { return View(n); }
+            if(!confirmPassChecker(n.Password, cPassword)) { return View(n); }
+
+            var db = new FoodRescueTrackerSystemEntities();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<NGOAuthorityDTO, NGOAuthority>();
+            });
+            var mapper = new Mapper(config);
+            var cData = mapper.Map<NGOAuthority>(n);
+
+            db.NGOAuthorities.Add(cData);
+            db.SaveChanges();
+            return RedirectToAction("LoginAdmin");
+        }
+
+        [AdminLogged]
         public ActionResult AdminDashboard()
         {
-            Session["ngoAuthEmail"] = "n@mail.com"; //must be removed this line
-
             var db = new FoodRescueTrackerSystemEntities();
             var data = db.FoodCollections.ToList();
             var config = new MapperConfiguration(cfg =>
@@ -64,6 +122,7 @@ namespace FoodRescueTrackerSystem.Controllers
             return View(cData);
         }
         [HttpPost]
+        [AdminLogged]
         public ActionResult Process(int reqId, string DistributorEmail)
         {   
             var db = new FoodRescueTrackerSystemEntities();
@@ -72,7 +131,7 @@ namespace FoodRescueTrackerSystem.Controllers
             if(data != null && empAuthData != null)
             {
                 data.ApprovalTime = DateTime.Now;
-                data.ApproverEmail = Session["ngoAuthEmail"].ToString();
+                data.ApproverEmail = Session["ngoAdminAuthEmail"].ToString();
                 data.DistributorEmail = DistributorEmail;
                 data.Status = "Accepted";
                 db.SaveChanges();
@@ -82,12 +141,59 @@ namespace FoodRescueTrackerSystem.Controllers
             return RedirectToAction("AdminDashboard");
         }
         [HttpGet]
-        public ActionResult EmployeeDashboard()
+        public ActionResult LoginEmployee()
         {
-            Session["ngEmpAuthEmail"] = "ne@mail.com"; //must be removed this line
+            return View();
+        }
+        [HttpPost]
+        public ActionResult LoginEmployee(string Email, string Password)
+        {
+            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password)) {
+                TempData["emptyField"] = true;
+                return View(new NGOEmployeeDTO { Email = Email, Name = null, Password = null }); 
+            }
 
             var db = new FoodRescueTrackerSystemEntities();
-            var data = db.FoodCollections.ToList();
+            if (db.NGOEmployees.Where(d => d.Email == Email && d.Password == Password).SingleOrDefault() != null)
+            {
+                Session["ngoEmpLogged"] = true;
+                Session["ngEmpEmail"] = Email;
+                return RedirectToAction("EmployeeDashboard");
+            }
+            TempData["passNotMatched"] = true;
+            return View(new NGOEmployeeDTO { Email = Email, Name = null, Password = null });
+        }
+        [HttpGet]
+        public ActionResult SignupEmployee()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SignupEmployee(NGOEmployeeDTO n, string cPassword)
+        {
+            if (!ModelState.IsValid) { return View(n); }
+            if (string.IsNullOrEmpty(cPassword)) { return View(n); }
+            if (!confirmPassChecker(n.Password, cPassword)) { return View(n); }
+
+            var db = new FoodRescueTrackerSystemEntities();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<NGOEmployeeDTO, NGOEmployee>();
+            });
+            var mapper = new Mapper(config);
+            var cData = mapper.Map<NGOEmployee>(n);
+
+            db.NGOEmployees.Add(cData);
+            db.SaveChanges();
+            return RedirectToAction("LoginEmployee");
+        }
+        [EmployeeLogged]
+        [HttpGet]
+        public ActionResult EmployeeDashboard()
+        {
+            string email = Session["ngEmpEmail"].ToString();
+            var db = new FoodRescueTrackerSystemEntities();
+            var data = db.FoodCollections.Where(d=>d.DistributorEmail==email).ToList();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<FoodCollection, FoodCollectionDTO>();
@@ -96,6 +202,7 @@ namespace FoodRescueTrackerSystem.Controllers
             var cData = mapper.Map<List<FoodCollectionDTO>>(data);
             return View(cData);
         }
+        [EmployeeLogged]
         [HttpPost]
         public ActionResult Collected(int reqId)
         {
@@ -111,6 +218,7 @@ namespace FoodRescueTrackerSystem.Controllers
             TempData["NoDataFoundMsg"] = true;
             return RedirectToAction("EmployeeDashboard");
         }
+        [EmployeeLogged]
         [HttpPost]
         public ActionResult Distributed(int reqId)
         {
