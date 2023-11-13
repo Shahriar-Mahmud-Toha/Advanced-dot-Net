@@ -12,6 +12,7 @@
         <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOAuthorities" />
         <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" />
         <AssociationConnector Association="FoodRescueTrackerSystemModel.FK_FoodCollections_RestaurantAuthorities" />
+        <EntityTypeShape EntityType="FoodRescueTrackerSystemModel.LicenseeKey" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -29,5 +29,6 @@ namespace FoodRescueTrackerSystem.EF
         public virtual DbSet<NGOEmployee> NGOEmployees { get; set; }
         public virtual DbSet<RestaurantAuthority> RestaurantAuthorities { get; set; }
         public virtual DbSet<FoodCollection> FoodCollections { get; set; }
+        public virtual DbSet<LicenseeKey> LicenseeKeys { get; set; }
     }
 }

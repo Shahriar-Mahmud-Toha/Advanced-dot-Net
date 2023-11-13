@@ -2,6 +2,7 @@
 using FoodRescueTrackerSystem.Auth;
 using FoodRescueTrackerSystem.DTOs;
 using FoodRescueTrackerSystem.EF;
+using FoodRescueTrackerSystem.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,13 +52,23 @@ namespace FoodRescueTrackerSystem.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SignupAdmin(NGOAuthorityDTO n, string cPassword)
+        public ActionResult SignupAdmin(NGOAuthorityDTO n, string cPassword, string LcKey)
         {
             if (!ModelState.IsValid) { return View(n); }
             if (string.IsNullOrEmpty(cPassword)) { return View(n); }
-            if(!confirmPassChecker(n.Password, cPassword)) { return View(n); }
-
+            if (string.IsNullOrEmpty(LcKey))
+            {
+                TempData["lkeyBlank"] = true;
+                return View(n);
+            }
+            if (!confirmPassChecker(n.Password, cPassword)) { return View(n); }
             var db = new FoodRescueTrackerSystemEntities();
+            if (db.LicenseeKeys.Where(k => k.LcKey == LcKey && k.Role == "adminNGO").SingleOrDefault() == null)
+            {
+                TempData["lkeyInvalid"] = true;
+                return View(n);
+            }
+            db.LicenseeKeys.Remove(db.LicenseeKeys.Where(k => k.LcKey == LcKey && k.Role == "adminNGO").Single());
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<NGOAuthorityDTO, NGOAuthority>();
@@ -97,6 +108,7 @@ namespace FoodRescueTrackerSystem.Controllers
             var ngoAuthNames = new Dictionary<string, string>(); //ngoAuthEmail, ngoAuthName
             foreach (var items in empData)
             {
+                //if (!empNames.ContainsKey(items.Email) && items.AdminApproved == 1)
                 if (!empNames.ContainsKey(items.Email))
                 {
                     empNames.Add(items.Email, items.Name);
@@ -123,6 +135,13 @@ namespace FoodRescueTrackerSystem.Controllers
         }
         [HttpPost]
         [AdminLogged]
+        public ActionResult logoutAdmin()
+        {
+            Session["ngoAdminAuthLogged"] = null;
+            return RedirectToAction("LoginAdmin");
+        }
+        [HttpPost]
+        [AdminLogged]
         public ActionResult Process(int reqId, string DistributorEmail)
         {   
             var db = new FoodRescueTrackerSystemEntities();
@@ -140,6 +159,51 @@ namespace FoodRescueTrackerSystem.Controllers
             TempData["NoDataFoundMsg"] = true;
             return RedirectToAction("AdminDashboard");
         }
+        [AdminLogged]
+        public ActionResult EmpAccActivate()
+        {
+            var db = new FoodRescueTrackerSystemEntities();
+            var data = db.NGOEmployees.ToList();
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<NGOEmployee, NGOEmployeeDTO>();
+            });
+            var mapper = new Mapper(config);
+            var cData = mapper.Map<List<NGOEmployeeDTO>>(data);
+            return View(cData);
+        }
+        [HttpPost]
+        [AdminLogged]
+        public ActionResult activateEmp(string Email)
+        {
+            if (string.IsNullOrEmpty(Email)) { return RedirectToAction("EmpAccActivate"); }
+            var db = new FoodRescueTrackerSystemEntities();
+            if(db.NGOEmployees.Find(Email) == null)
+            {
+                TempData["empEmaiNotFound"] = true;
+                return RedirectToAction("EmpAccActivate");
+            }
+            db.NGOEmployees.Find(Email).AdminApproved = 1;
+            db.SaveChanges();
+            TempData["empActSucc"] = true;
+            return RedirectToAction("EmpAccActivate");
+        }
+        [HttpPost]
+        [AdminLogged]
+        public ActionResult deactivateEmp(string Email)
+        {
+            if (string.IsNullOrEmpty(Email)) { return RedirectToAction("EmpAccActivate"); }
+            var db = new FoodRescueTrackerSystemEntities();
+            if (db.NGOEmployees.Find(Email) == null)
+            {
+                TempData["empEmaiNotFound"] = true;
+                return RedirectToAction("EmpAccActivate");
+            }
+            db.NGOEmployees.Find(Email).AdminApproved = 0;
+            db.SaveChanges();
+            TempData["empDeacSucc"] = true;
+            return RedirectToAction("EmpAccActivate");
+        }
         [HttpGet]
         public ActionResult LoginEmployee()
         {
@@ -156,6 +220,11 @@ namespace FoodRescueTrackerSystem.Controllers
             var db = new FoodRescueTrackerSystemEntities();
             if (db.NGOEmployees.Where(d => d.Email == Email && d.Password == Password).SingleOrDefault() != null)
             {
+                if (db.NGOEmployees.Find(Email).AdminApproved == 0) 
+                {
+                    TempData["empAccNotAcc"] = true;
+                    return View(new NGOEmployeeDTO { Email = Email, Name = null, Password = null }); 
+                }
                 Session["ngoEmpLogged"] = true;
                 Session["ngEmpEmail"] = Email;
                 return RedirectToAction("EmployeeDashboard");
@@ -187,8 +256,15 @@ namespace FoodRescueTrackerSystem.Controllers
             db.SaveChanges();
             return RedirectToAction("LoginEmployee");
         }
+        [HttpPost]
         [EmployeeLogged]
+        public ActionResult logoutEmployee()
+        {
+            Session["ngoEmpLogged"] = null;
+            return RedirectToAction("LoginEmployee");
+        }
         [HttpGet]
+        [EmployeeLogged]
         public ActionResult EmployeeDashboard()
         {
             string email = Session["ngEmpEmail"].ToString();
@@ -202,8 +278,8 @@ namespace FoodRescueTrackerSystem.Controllers
             var cData = mapper.Map<List<FoodCollectionDTO>>(data);
             return View(cData);
         }
-        [EmployeeLogged]
         [HttpPost]
+        [EmployeeLogged]
         public ActionResult Collected(int reqId)
         {
             var db = new FoodRescueTrackerSystemEntities();
@@ -218,8 +294,9 @@ namespace FoodRescueTrackerSystem.Controllers
             TempData["NoDataFoundMsg"] = true;
             return RedirectToAction("EmployeeDashboard");
         }
-        [EmployeeLogged]
+        
         [HttpPost]
+        [EmployeeLogged]
         public ActionResult Distributed(int reqId)
         {
             var db = new FoodRescueTrackerSystemEntities();

@@ -10,7 +10,7 @@ namespace FoodRescueTrackerSystem.Auth
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (httpContext.Session["ngoAdminAuthLogged"] != null) return true;
+            if ((httpContext.Session["ngoAdminAuthLogged"] != null) && (bool)(httpContext.Session["ngoAdminAuthLogged"])) return true;
             return false;
         }
     }
@@ -18,7 +18,7 @@ namespace FoodRescueTrackerSystem.Auth
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (httpContext.Session["ngoEmpLogged"] != null) return true;
+            if((httpContext.Session["ngoEmpLogged"] != null) && (bool)(httpContext.Session["ngoEmpLogged"])) return true;
             return false;
         }
     }
@@ -26,7 +26,7 @@ namespace FoodRescueTrackerSystem.Auth
     {
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
-            if (httpContext.Session["resAdminAuthLogged"] != null) return true;
+            if ((httpContext.Session["resAdminAuthLogged"] != null) && (bool)(httpContext.Session["resAdminAuthLogged"])) return true;
             return false;
         }
     }

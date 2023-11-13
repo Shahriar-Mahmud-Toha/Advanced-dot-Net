@@ -22,6 +22,14 @@
           <Property Name="ApproverEmail" Type="varchar" MaxLength="50" />
           <Property Name="DistributorEmail" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="LicenseeKeys">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LcKey" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="NGOAuthorities">
           <Key>
             <PropertyRef Name="Email" />
@@ -37,6 +45,7 @@
           <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AdminApproved" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RestaurantAuthorities">
           <Key>
@@ -84,6 +93,7 @@
         </Association>
         <EntityContainer Name="FoodRescueTrackerSystemModelStoreContainer">
           <EntitySet Name="FoodCollections" EntityType="Self.FoodCollections" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LicenseeKeys" EntityType="Self.LicenseeKeys" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NGOAuthorities" EntityType="Self.NGOAuthorities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NGOEmployees" EntityType="Self.NGOEmployees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RestaurantAuthorities" EntityType="Self.RestaurantAuthorities" Schema="dbo" store:Type="Tables" />
@@ -121,6 +131,7 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="FoodCollections" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" FromRole="NGOEmployee" ToRole="FoodCollection" />
+          <Property Name="AdminApproved" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="RestaurantAuthority">
           <Key>
@@ -148,6 +159,7 @@
             <End Role="RestaurantAuthority" EntitySet="RestaurantAuthorities" />
             <End Role="FoodCollection" EntitySet="FoodCollections" />
           </AssociationSet>
+          <EntitySet Name="LicenseeKeys" EntityType="FoodRescueTrackerSystemModel.LicenseeKey" />
           </EntityContainer>
         <EntityType Name="FoodCollection">
           <Key>
@@ -205,6 +217,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="LicenseeKey">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LcKey" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -223,6 +243,7 @@
           <EntitySetMapping Name="NGOEmployees">
             <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.NGOEmployee">
               <MappingFragment StoreEntitySet="NGOEmployees">
+                <ScalarProperty Name="AdminApproved" ColumnName="AdminApproved" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -252,6 +273,15 @@
                 <ScalarProperty Name="DueTime" ColumnName="DueTime" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LicenseeKeys">
+            <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.LicenseeKey">
+              <MappingFragment StoreEntitySet="LicenseeKeys">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="LcKey" ColumnName="LcKey" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

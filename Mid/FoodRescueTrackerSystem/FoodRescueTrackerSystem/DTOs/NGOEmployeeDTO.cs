@@ -31,5 +31,6 @@ namespace FoodRescueTrackerSystem.DTOs
         [Required]
         [RegularExpression("^(?=.*[A-Za-z].*[A-Za-z])(?=.*\\d)(?=.*[^A-Za-z\\d\\s].*[^A-Za-z\\d\\s]).{8,}$", ErrorMessage = "* At least 8 characters. * No space allowed. * At least 2 alphabets, 1 number, 2 special characters.")]
         public string Password { get; set; }
+        public int AdminApproved { get; set; }
     }
 }

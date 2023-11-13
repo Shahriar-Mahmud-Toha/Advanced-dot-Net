@@ -1,0 +1,1 @@
+To restore this database, SQL server management studio must be run in administrator mode.

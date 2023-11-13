@@ -13,6 +13,7 @@
     <EntitySetMapping Name="NGOEmployees">
       <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.NGOEmployee">
         <MappingFragment StoreEntitySet="NGOEmployees">
+          <ScalarProperty Name="AdminApproved" ColumnName="AdminApproved" />
           <ScalarProperty Name="Email" ColumnName="Email" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Password" ColumnName="Password" />
@@ -42,6 +43,15 @@
           <ScalarProperty Name="DueTime" ColumnName="DueTime" />
           <ScalarProperty Name="Address" ColumnName="Address" />
           <ScalarProperty Name="RequestTime" ColumnName="RequestTime" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="LicenseeKeys">
+      <EntityTypeMapping TypeName="FoodRescueTrackerSystemModel.LicenseeKey">
+        <MappingFragment StoreEntitySet="LicenseeKeys">
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="LcKey" ColumnName="LcKey" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

@@ -1,0 +1,76 @@
+﻿@model IEnumerable<FoodRescueTrackerSystem.DTOs.NGOEmployeeDTO>
+
+@{
+    ViewBag.Title = "Employee Account Activatation";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Employee Account Activation</h2>
+
+<div>
+    <a class="btn btn-dark" href="/NGO/AdminDashboard">Dashboard</a>
+</div>
+@if (TempData["empActSucc"] != null && (bool)TempData["empActSucc"])
+{
+    <div><span class="text-success">Account Activated</span></div>
+    TempData["empActSucc"] = null;
+}
+@if (TempData["empDeacSucc"] != null && (bool)TempData["empDeacSucc"])
+{
+    <div><span class="text-danger">Account Deactivated</span></div>
+    TempData["empDeacSucc"] = null;
+}
+<div class="vrSpace"></div>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            Activation Status
+        </th>
+        <th>Action</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @if (item.AdminApproved == 0)
+                {
+                    <span class="text-warning">Deactivated</span>
+                }
+                @if (item.AdminApproved == 1)
+                {
+                    <span class="text-success">Activated</span>
+                }
+            </td>
+            <td>
+                @if (item.AdminApproved == 0)
+                {
+                    <form action="/NGO/activateEmp" method="post">
+                        <input type="hidden" name="Email" value="@item.Email" />
+                        <input type="submit" value="Activate" class="btn btn-success" />
+                    </form>
+                }
+                else
+                {
+                    <form action="/NGO/deactivateEmp" method="post">
+                        <input type="hidden" name="Email" value="@item.Email" />
+                        <input type="submit" value="Deactivate" class="btn btn-danger" />
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

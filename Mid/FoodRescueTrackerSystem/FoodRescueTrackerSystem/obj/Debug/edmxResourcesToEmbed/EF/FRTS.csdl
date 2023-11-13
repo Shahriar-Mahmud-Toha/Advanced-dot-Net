@@ -17,6 +17,7 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="FoodCollections" Relationship="FoodRescueTrackerSystemModel.FK_FoodCollections_NGOEmployees" FromRole="NGOEmployee" ToRole="FoodCollection" />
+    <Property Name="AdminApproved" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="RestaurantAuthority">
     <Key>
@@ -44,6 +45,7 @@
       <End Role="RestaurantAuthority" EntitySet="RestaurantAuthorities" />
       <End Role="FoodCollection" EntitySet="FoodCollections" />
     </AssociationSet>
+    <EntitySet Name="LicenseeKeys" EntityType="FoodRescueTrackerSystemModel.LicenseeKey" />
   </EntityContainer>
   <EntityType Name="FoodCollection">
     <Key>
@@ -101,4 +103,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="LicenseeKey">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LcKey" Type="String" Nullable="false" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

@@ -7,6 +7,11 @@
 
 <h2>NGO Employee Dashboard</h2>
 <div>
+    <form action="/NGO/logoutEmployee" method="post">
+        <input class="btn btn-danger logout" type="submit" value="Logout" />
+    </form>
+</div>
+<div>
     @if (TempData["NoDataFoundMsg"] != null && (bool)TempData["NoDataFoundMsg"])
     {
         <span class="text-danger text-danger">No Valid Collection Request Found</span><br />

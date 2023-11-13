@@ -53,13 +53,24 @@ namespace FoodRescueTrackerSystem.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult SignupAdmin(RestaurantAuthorityDTO n, string cPassword)
+        public ActionResult SignupAdmin(RestaurantAuthorityDTO n, string cPassword, string LcKey)
         {
             if (!ModelState.IsValid) { return View(n); }
             if (string.IsNullOrEmpty(cPassword)) { return View(n); }
+            if (string.IsNullOrEmpty(LcKey))
+            {
+                TempData["lkeyBlank"] = true;
+                return View(n); 
+            }
             if (!confirmPassChecker(n.Password, cPassword)) { return View(n); }
-
             var db = new FoodRescueTrackerSystemEntities();
+            if(db.LicenseeKeys.Where(k => k.LcKey == LcKey && k.Role== "adminRes").SingleOrDefault() == null)
+            {
+                TempData["lkeyInvalid"] = true;
+                return View(n);
+            }
+            db.LicenseeKeys.Remove(db.LicenseeKeys.Where(k => k.LcKey == LcKey && k.Role == "adminRes").Single());
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<RestaurantAuthorityDTO, RestaurantAuthority>();
@@ -69,6 +80,13 @@ namespace FoodRescueTrackerSystem.Controllers
 
             db.RestaurantAuthorities.Add(cData);
             db.SaveChanges();
+            return RedirectToAction("LoginAdmin");
+        }
+        [HttpPost]
+        [ResAdminLogged]
+        public ActionResult logoutAdmin()
+        {
+            Session["resAdminAuthLogged"] = null;
             return RedirectToAction("LoginAdmin");
         }
         [HttpGet]

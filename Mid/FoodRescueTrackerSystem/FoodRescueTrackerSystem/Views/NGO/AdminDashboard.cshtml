@@ -21,7 +21,16 @@
 
     string empList = distributorsList();
 }
-<h2>AdminDashboard</h2>
+<h2>Admin - NGO - Dashboard</h2>
+<div>
+    <form action="/NGO/logoutAdmin" method="post">
+        <input class="btn btn-danger logout" type="submit" value="Logout"/>
+    </form>
+</div>
+<div>
+    <a class="btn btn-dark" href="/NGO/EmpAccActivate">Employee Account Activation</a>
+</div>
+<div class="vrSpace"></div>
 <div>
     @if (TempData["NoDataFoundMsg"] != null && (bool)TempData["NoDataFoundMsg"])
     {

@@ -30,6 +30,18 @@
                 <div><span class="text-danger">Password and Confirm Password must be same</span></div>
                 TempData["cPassInvalid"] = null;
             }
+            <label for="LcKey" class="form-label">License Key</label>
+            <input type="text" class="form-control" name="LcKey" id="LcKey" placeholder="Enter your license key">
+            @if (TempData["lkeyBlank"] != null && (bool)TempData["lkeyBlank"])
+            {
+                <div><span class="text-danger">License Key Required</span></div>
+                TempData["lkeyBlank"] = null;
+            }
+            @if (TempData["lkeyInvalid"] != null && (bool)TempData["lkeyInvalid"])
+            {
+                <div><span class="text-danger">Invalid License Key</span></div>
+                TempData["lkeyInvalid"] = null;
+            }
 
             <div class="vrSpace"></div>
             <div class="centerAnything">

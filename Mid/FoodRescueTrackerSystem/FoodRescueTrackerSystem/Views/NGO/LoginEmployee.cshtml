@@ -26,6 +26,11 @@
                 <div><span class="text-danger">Email or Password Not Matched.</span></div>
                 TempData["passNotMatched"] = null;
             }
+            @if (TempData["empAccNotAcc"] != null && (bool)TempData["empAccNotAcc"])
+            {
+                <div><span class="text-warning">Account not Activated. Wait for Admin Activation.</span></div>
+                TempData["empAccNotAcc"] = null;
+            }
             <div class="vrSpace"></div>
             <div class="centerAnything">
                 <input type="submit" name="submit" class="btn btn-success" value="Login">

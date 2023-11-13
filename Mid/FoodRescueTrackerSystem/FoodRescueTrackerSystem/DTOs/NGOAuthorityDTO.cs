@@ -11,7 +11,7 @@ namespace FoodRescueTrackerSystem.DTOs
     {
         [Required]
         [RegularExpression("^(?=.{1,64}$)[a-z][a-z0-9.-]*[a-z0-9]@[a-z]{2,}(?:\\.[a-z0-9]+)*\\.[a-z]{2,}$", ErrorMessage = "Invalid Email Format")]
-        [UniqueEmpAuthorValidator(ErrorMessage = "This email has been used already. Choose another email.")]
+        [UniqueAdminAuthorValidator(ErrorMessage = "This email has been used already. Choose another email.")]
         public string Email { get; set; }
         private string name;
 

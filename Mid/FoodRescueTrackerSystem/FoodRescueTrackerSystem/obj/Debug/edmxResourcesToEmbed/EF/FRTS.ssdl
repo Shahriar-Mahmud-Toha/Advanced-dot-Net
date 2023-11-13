@@ -17,6 +17,14 @@
     <Property Name="ApproverEmail" Type="varchar" MaxLength="50" />
     <Property Name="DistributorEmail" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="LicenseeKeys">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="LcKey" Type="varchar" MaxLength="8" Nullable="false" />
+    <Property Name="Role" Type="varchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="NGOAuthorities">
     <Key>
       <PropertyRef Name="Email" />
@@ -32,6 +40,7 @@
     <Property Name="Email" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AdminApproved" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="RestaurantAuthorities">
     <Key>
@@ -79,6 +88,7 @@
   </Association>
   <EntityContainer Name="FoodRescueTrackerSystemModelStoreContainer">
     <EntitySet Name="FoodCollections" EntityType="Self.FoodCollections" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LicenseeKeys" EntityType="Self.LicenseeKeys" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NGOAuthorities" EntityType="Self.NGOAuthorities" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="NGOEmployees" EntityType="Self.NGOEmployees" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RestaurantAuthorities" EntityType="Self.RestaurantAuthorities" Schema="dbo" store:Type="Tables" />
