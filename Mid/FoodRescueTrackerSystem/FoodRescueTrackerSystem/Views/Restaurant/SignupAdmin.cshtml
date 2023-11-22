@@ -19,11 +19,11 @@
             <div><span class="text-danger">@Html.ValidationMessage("Email")</span></div>
 
             <label for="Password" class="form-label">Password</label>
-            <input type="text" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
+            <input type="password" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
             <div><span class="text-danger">@Html.ValidationMessage("Password")</span></div>
 
             <label for="cPassword" class="form-label">Confirm Password</label>
-            <input type="text" class="form-control" name="cPassword" id="cPassword" placeholder="Confirm your Password">
+            <input type="password" class="form-control" name="cPassword" id="cPassword" placeholder="Confirm your Password">
             <div><span class="text-danger">@Html.ValidationMessage("cPassword")</span></div>
             @if (TempData["cPassInvalid"] != null && (bool)TempData["cPassInvalid"])
             {

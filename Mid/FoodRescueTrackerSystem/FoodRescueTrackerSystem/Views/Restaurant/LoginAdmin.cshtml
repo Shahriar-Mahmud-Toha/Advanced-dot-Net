@@ -15,7 +15,7 @@
             <input type="text" class="form-control" name="Email" id="Email" value="@(Model !=null && Model.Email != null?Model.Email:"")" placeholder="Enter your Email">
 
             <label for="Password" class="form-check-label">Password</label>
-            <input type="text" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
+            <input type="password" class="form-control" name="Password" id="Password" placeholder="Enter your Password">
             @if (TempData["emptyField"] != null && (bool)TempData["emptyField"])
             {
                 <div><span class="text-danger">All the field must be filled</span></div>
