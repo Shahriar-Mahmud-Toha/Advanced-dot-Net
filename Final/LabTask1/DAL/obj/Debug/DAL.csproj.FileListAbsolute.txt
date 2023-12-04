@@ -1,0 +1,6 @@
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\bin\Debug\DAL.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\bin\Debug\DAL.pdb
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\obj\Debug\DAL.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\DAL\obj\Debug\DAL.pdb

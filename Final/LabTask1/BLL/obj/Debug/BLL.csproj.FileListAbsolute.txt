@@ -1,0 +1,11 @@
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\BLL.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\BLL.pdb
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\DAL.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\DAL.pdb
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\obj\Debug\BLL.csproj.AssemblyReference.cache
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\obj\Debug\BLL.csproj.CoreCompileInputs.cache
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\obj\Debug\BLL.csproj.CopyComplete
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\obj\Debug\BLL.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\obj\Debug\BLL.pdb
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\AutoMapper.dll
+D:\OneDrive\Shahriar Mahmud Toha\PC\Documents\Main Files\GitRep\Advanced dot Net\Final\LabTask1\BLL\bin\Debug\AutoMapper.xml
